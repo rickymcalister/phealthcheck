@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="tests/App/bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="Phealthcheck Test Suite">
+            <directory>tests/Phealthcheck/</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/Phealthcheck/</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="reports/coverage-html" lowUpperBound="35" highLowerBound="70"/>
+    </logging>
+</phpunit>
