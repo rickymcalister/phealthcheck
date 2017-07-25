@@ -2,8 +2,9 @@
 namespace Phealthcheck\Check;
 
 use PDO;
+use Phealthcheck\Check\Enum\CheckStatus;
 
-class PdoStatusCheck implements CheckInterface
+final class PdoStatusCheck implements CheckInterface
 {
     /** @var PDO */
     private $connection;
@@ -19,15 +20,13 @@ class PdoStatusCheck implements CheckInterface
     }
 
     /**
-     * Return an array containing the results of the check, e.g.
+     * Return a valid CheckStatus
      *
-     * ['connected' => true]
-     *
-     * @return array
+     * @return CheckStatus
      */
     public function run()
     {
-        return ['connected' => $this->checkPdoConnection($this->connection)];
+        return $this->checkPdoConnection($this->connection) ? CheckStatus::OK() : CheckStatus::FAIL();
     }
 
     /**

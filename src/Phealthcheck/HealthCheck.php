@@ -2,9 +2,10 @@
 namespace Phealthcheck;
 
 use Phealthcheck\Check\CheckInterface;
+use Phealthcheck\Check\Enum\CheckStatus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class HealthCheck
+final class HealthCheck
 {
     /** @var JsonResponse */
     protected $response;
@@ -32,16 +33,20 @@ class HealthCheck
     }
 
     /**
-     * Build and return a JSON response
-     *
-     * @return JsonResponse
+     * Build a JSON response
      */
     private function buildResponse()
     {
-        $responseData = ['success' => true];
+        $responseData = ['status' => CheckStatus::OK];
 
         foreach ($this->checks as $checkName => $check) {
-            $responseData[$checkName] = $check->run();
+            $result = $check->run();
+
+            if ($result === CheckStatus::FAIL()) {
+                $responseData['status'] = CheckStatus::FAIL;
+            }
+
+            $responseData[$checkName] = $result->value();
         }
 
         $this->response = new JsonResponse($responseData);

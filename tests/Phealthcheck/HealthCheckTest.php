@@ -2,6 +2,7 @@
 namespace Phealthcheck;
 
 use Phealthcheck\Check\CheckInterface;
+use Phealthcheck\Check\Enum\CheckStatus;
 use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 
@@ -31,51 +32,43 @@ class HealthCheckTest extends PHPUnit_Framework_TestCase
         return [
             [
                 'checks'   => [
-                    'primary_db' => $this->getCheckMock(false),
-                    'shard_db'   => $this->getCheckMock(false)
+                    'primary_db' => $this->getCheckMock(CheckStatus::FAIL()),
+                    'secondary_db'   => $this->getCheckMock(CheckStatus::FAIL())
                 ],
-                'expected' => '{"success":true,"primary_db":{"connected":false},"shard_db":{"connected":false}}'
+                'expected' => '{"status":"FAIL","primary_db":"FAIL","secondary_db":"FAIL"}'
             ],
             [
                 'checks'   => [
-                    'primary_db' => $this->getCheckMock(true),
-                    'shard_db'   => $this->getCheckMock(false)
+                    'primary_db' => $this->getCheckMock(CheckStatus::OK()),
+                    'secondary_db'   => $this->getCheckMock(CheckStatus::FAIL())
                 ],
-                'expected' => '{"success":true,"primary_db":{"connected":true},"shard_db":{"connected":false}}'
+                'expected' => '{"status":"FAIL","primary_db":"OK","secondary_db":"FAIL"}'
             ],
             [
                 'checks'   => [
-                    'primary_db' => $this->getCheckMock(false),
-                    'shard_db'   => $this->getCheckMock(true)
+                    'primary_db' => $this->getCheckMock(CheckStatus::FAIL()),
+                    'secondary_db'   => $this->getCheckMock(CheckStatus::OK())
                 ],
-                'expected' => '{"success":true,"primary_db":{"connected":false},"shard_db":{"connected":true}}'
+                'expected' => '{"status":"FAIL","primary_db":"FAIL","secondary_db":"OK"}'
             ],
             [
                 'checks'   => [
-                    'primary_db' => $this->getCheckMock(true),
-                    'shard_db'   => $this->getCheckMock(true)
+                    'primary_db' => $this->getCheckMock(CheckStatus::OK()),
+                    'secondary_db'   => $this->getCheckMock(CheckStatus::OK())
                 ],
-                'expected' => '{"success":true,"primary_db":{"connected":true},"shard_db":{"connected":true}}'
-            ],
-            [
-                'checks'   => [
-                    'bad_pdo_check' => $this->getCheckMock(false),
-                    'good_pdo_check'   => $this->getCheckMock(true),
-                    'another_good_pdo_check'   => $this->getCheckMock(true)
-                ],
-                'expected' => '{"success":true,"bad_pdo_check":{"connected":false},"good_pdo_check":{"connected":true},"another_good_pdo_check":{"connected":true}}'
+                'expected' => '{"status":"OK","primary_db":"OK","secondary_db":"OK"}'
             ]
         ];
     }
 
     /**
-     * @param bool $connected
+     * @param CheckStatus $status
      * @return PHPUnit_Framework_MockObject_MockObject
      */
-    private function getCheckMock($connected = true)
+    private function getCheckMock($status)
     {
         $mockCheck = $this->getMock(CheckInterface::class);
-        $mockCheck->expects($this->atLeastOnce())->method('run')->willReturn(['connected' => $connected]);
+        $mockCheck->expects($this->atLeastOnce())->method('run')->willReturn($status);
 
         return $mockCheck;
     }

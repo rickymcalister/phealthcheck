@@ -1,6 +1,8 @@
 <?php
 namespace Phealthcheck\Check;
 
+use Phealthcheck\Check\Enum\CheckStatus;
+
 /**
  * Interface CheckInterface
  *
@@ -16,11 +18,9 @@ namespace Phealthcheck\Check;
 interface CheckInterface
 {
     /**
-     * Return an array containing the results of the check, e.g.
+     * Return a valid CheckStatus
      *
-     * ['connected' => true]
-     *
-     * @return array
+     * @return CheckStatus
      */
     public function run();
 }

@@ -2,6 +2,7 @@
 namespace Test\ManageFlitter\HealthCheck\App\Check;
 
 use Phealthcheck\Check\PdoStatusCheck;
+use Phealthcheck\Check\Enum\CheckStatus;
 use Phealthcheck\Mock\PdoMock;
 use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
@@ -30,11 +31,11 @@ class PdoStatusCheckTest extends PHPUnit_Framework_TestCase
         return [
             [
                 'status'   => 'localhost',
-                'expected' => ['connected' => true]
+                'expected' => CheckStatus::OK()
             ],
             [
                 'status'   => null,
-                'expected' => ['connected' => false]
+                'expected' => CheckStatus::FAIL()
             ]
         ];
     }
