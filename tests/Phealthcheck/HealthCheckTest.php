@@ -32,6 +32,18 @@ class HealthCheckTest extends PHPUnit_Framework_TestCase
         return [
             [
                 'checks'   => [
+                    'database'   => $this->getCheckMock(CheckStatus::OK())
+                ],
+                'expected' => '{"status":"OK","database":"OK"}'
+            ],
+            [
+                'checks'   => [
+                    'database'   => $this->getCheckMock(CheckStatus::FAIL())
+                ],
+                'expected' => '{"status":"FAIL","database":"FAIL"}'
+            ],
+            [
+                'checks'   => [
                     'primary_db' => $this->getCheckMock(CheckStatus::FAIL()),
                     'secondary_db'   => $this->getCheckMock(CheckStatus::FAIL())
                 ],
