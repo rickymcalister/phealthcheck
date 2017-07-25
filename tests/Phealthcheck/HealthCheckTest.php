@@ -23,7 +23,26 @@ class HealthCheckTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * DataProvider for testBuildResponse
+     * @group        unit
+     * @dataProvider buildResponseDataProvider
+     * @param array  $checks
+     * @param string $expected
+     */
+    public function testAddChecks($checks, $expected)
+    {
+        $healthCheck = new HealthCheck();
+
+        foreach ($checks as $checkName => $check) {
+            $healthCheck->addCheck($checkName, $check);
+        }
+
+        $response = $healthCheck->getResponse();
+
+        $this->assertEquals($expected, $response->getContent());
+    }
+
+    /**
+     * DataProvider for testBuildResponse|testAddChecks
      *
      * @return array
      */
