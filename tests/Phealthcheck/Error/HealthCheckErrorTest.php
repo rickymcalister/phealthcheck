@@ -24,7 +24,7 @@ class HealthCheckErrorTest extends PHPUnit_Framework_TestCase
      */
     public function testDefaultSendResponse()
     {
-        $expected = '{"success":false,"error":{"message":"","code":0}}';
+        $expected = '{"status":"FAIL","error":{"message":"","code":0}}';
         $response = HealthCheckError::getResponse();
 
         $this->assertEquals($expected, $response->getContent());
@@ -41,12 +41,12 @@ class HealthCheckErrorTest extends PHPUnit_Framework_TestCase
             [
                 'message'  => '',
                 'code'     => 0,
-                'expected' => '{"success":false,"error":{"message":"","code":0}}'
+                'expected' => '{"status":"FAIL","error":{"message":"","code":0}}'
             ],
             [
                 'message'  => 'some message',
                 'code'     => 101,
-                'expected' => '{"success":false,"error":{"message":"some message","code":101}}'
+                'expected' => '{"status":"FAIL","error":{"message":"some message","code":101}}'
             ]
         ];
     }
