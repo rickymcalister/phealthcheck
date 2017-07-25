@@ -4,10 +4,11 @@ A HTTP health check library for PHP web applications.
 
 ## Installation
 
-Use Composer
+The easiest way to get started with Phealthcheck is to add it to your project 
+using [Composer](https://getcomposer.org/):
 
 ```bash
-./composer.phar require rickymcalister/phealthcheck
+composer require rickymcalister/phealthcheck
 ```
 
 ## Basic Usage
@@ -29,7 +30,9 @@ try {
 $response->send();
 ```
 
-### Example JSON Response
+### Sample JSON Response
+
+**Success**
 
 ```json
 {
@@ -38,8 +41,33 @@ $response->send();
 }
 ```
 
-## Running Tests
+**Failure**
+
+```json
+{
+	"status": "FAIL",
+	"database": "FAIL"
+}
+```
+
+**Error**
+
+```json
+{
+	"status": "FAIL",
+	"error": {
+	    "message": "Some error message",
+	    "code": 100
+	}
+}
+```
+
+## Contributing
+
+TBC
+
+### Running Tests
 
 ```bash
-./composer.phar run test
+composer run test
 ```
