@@ -16,7 +16,7 @@ Use Composer
 try {
     // Build and run the health check
     $healthCheck = new Phealthcheck\HealthCheck([
-        new Phealthcheck\Check\PdoStatusCheck(
+        'database' => new Phealthcheck\Check\PdoStatusCheck(
             new PDO('dsn', 'dbuser', 'dbpass')
         )
     ]);
@@ -27,6 +27,15 @@ try {
 }
 
 $response->send();
+```
+
+### Example JSON Response
+
+```json
+{
+	"status": "OK",
+	"database": "OK"
+}
 ```
 
 ## Running Tests
