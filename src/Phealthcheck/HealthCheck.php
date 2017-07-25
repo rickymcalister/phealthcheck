@@ -23,6 +23,20 @@ final class HealthCheck
     }
 
     /**
+     * @param string         $name
+     * @param CheckInterface $check
+     * @todo Validate $name (e.g. alphanumeric, max-length)
+     *
+     * @return $this
+     */
+    public function addCheck($name, CheckInterface $check)
+    {
+        $this->checks[$name] = $check;
+
+        return $this;
+    }
+
+    /**
      * Return the JSON response
      *
      * @return JsonResponse
