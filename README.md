@@ -16,11 +16,11 @@ composer require rickymcalister/phealthcheck
 ```php
 try {
     // Build and run the health check
-    $healthCheck = new Phealthcheck\HealthCheck([
-        'database' => new Phealthcheck\Check\PdoStatusCheck(
-            new PDO('dsn', 'dbuser', 'dbpass')
-        )
-    ]);
+    $healthCheck = new Phealthcheck\HealthCheck();
+    $healthCheck->addCheck(
+        'database', 
+        new Phealthcheck\Check\PdoStatusCheck(new PDO('dsn', 'dbuser', 'dbpass')
+    )
     $response = $healthCheck->getResponse();
 } catch (Exception $e) {
     // Build and send a health check error response
