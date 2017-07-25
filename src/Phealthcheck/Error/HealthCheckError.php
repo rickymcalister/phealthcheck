@@ -1,6 +1,7 @@
 <?php
 namespace Phealthcheck\Error;
 
+use Phealthcheck\Check\Enum\CheckStatus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HealthCheckError
@@ -14,6 +15,6 @@ class HealthCheckError
      */
     public static function getResponse($message = '', $code = 0)
     {
-        return new JsonResponse(['success' => false, 'error' => ['message' => $message, 'code' => $code]]);
+        return new JsonResponse(['status' => CheckStatus::FAIL, 'error' => ['message' => $message, 'code' => $code]]);
     }
 }
