@@ -3,6 +3,7 @@ namespace Phealthcheck;
 
 use Phealthcheck\Check\CheckInterface;
 use Phealthcheck\Check\Enum\CheckStatus;
+use Phealthcheck\Response\UncacheableResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class HealthCheck
@@ -53,6 +54,6 @@ final class HealthCheck
             $responseData[$checkName] = $result->value();
         }
 
-        return new JsonResponse($responseData);
+        return new UncacheableResponse($responseData);
     }
 }
